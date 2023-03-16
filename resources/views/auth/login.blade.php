@@ -44,7 +44,12 @@
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
-
+            <x-primary-button class="ml-3">
+                <a class="btn" href="{{ url('register') }}"
+                   style="background: #313131; color: #ffffff; width: 100%; text-align: center; display: block; border-radius:3px;">
+                    Register to system
+                </a>
+            </x-primary-button>
 
             <x-primary-button class="ml-3">
                 {{ __('Log in') }}

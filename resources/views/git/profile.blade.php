@@ -79,7 +79,7 @@
         </div>
     </div>
 
-    <footer name="footer">
+    <footer class=" p-6  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h2 class=" mr-30 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             Created By:
         </h2>
