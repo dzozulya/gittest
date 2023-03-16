@@ -8,7 +8,7 @@
 
     <div class="max-w-sm p-6  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="flex items-center space-x-4">
-            <img class="w-20 h-20" src="{{$user['avatar_url']}}" alt="">
+            <img class="w-20 h-20  p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" src="{{$user['avatar_url']}}" alt="">
             <div class="font-medium dark:text-white">
                 <div>{{$user['login']}} (github id: {{$user['id']}})</div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">Created
@@ -31,7 +31,7 @@
                     </th>
 
                     <th scope="col" class="px-6 py-3">
-                        created at
+                        updated at
                     </th>
                     <th scope="col" class="px-6 py-3">
                         language
@@ -60,7 +60,7 @@
                         </td>
 
                         <td class="px-6 py-4">
-                            {{ \Carbon\Carbon::parse($user['created_at'])->format('d/m/Y')}}
+                            {{ \Carbon\Carbon::parse($user['updated_at'])->format('d/m/Y')}}
                         </td>
                         <td class="px-6 py-4">
                             {{$repo['language']}}
@@ -77,6 +77,25 @@
             </table>
         </div>
     </div>
+
+    <footer name="footer">
+        <h2 class=" mr-30 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Created By:
+        </h2>
+        <div class="shrink-0 flex items-center">
+            <a href="{{ route('git.profile',['gitId'=>'96869110']) }}">
+                {{ route('git.profile',['gitId'=>'96869110']) }}
+            </a>
+        </div>
+        <h2 class="mr-30 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Github Repository:
+        </h2>
+        <div class="shrink-0 flex items-center">
+            <a href="https://github.com/dzozulya/gittest">
+                https://github.com/dzozulya/gittest
+            </a>
+        </div>
+    </footer>
 
 
 </x-app-layout>

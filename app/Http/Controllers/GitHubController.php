@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\GitHubService;
 use GrahamCampbell\GitHub\Facades\GitHub;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,18 +11,23 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GitHubController extends Controller
 {
-    const AUTH_TYPE_GIT_HUB ='github';
+    private GitHubService $gitHubService;
+
+    public function __construct( GitHubService $gitHubService)
+    {
+        $this->gitHubService = $gitHubService;
+    }
 
     public function gitRedirect()
     {
-        return Socialite::driver(self::AUTH_TYPE_GIT_HUB)->redirect();
+        return $this->gitHubService->redirect();
     }
 
     public function gitCallback()
     {
         try {
 
-            $user = Socialite::driver(self::AUTH_TYPE_GIT_HUB)->stateless()->user();
+            $user = $this->gitHubService->getLoginedUser();
 
             $searchUser = User::where('github_id', $user->id)->first();
             if($searchUser){
@@ -35,7 +41,7 @@ class GitHubController extends Controller
                     'name' => $user->nickname,
                     'email' => $user->email,
                     'github_id'=> $user->id,
-                    'auth_type'=> self::AUTH_TYPE_GIT_HUB,
+                    'auth_type'=> 'github',
                     'password' => encrypt('gitpwd059')
                 ]);
 
@@ -51,13 +57,6 @@ class GitHubController extends Controller
 
     public function gitProfile(string $gitId)
     {
-        $user =GitHub::connection('app')->user()-> showById($gitId);
-       // dd($user);
-        $repos=GitHub::connection('app')->user()->repositories('agent3030');
-
-
-
-        return view('git.profile',['user'=>$user,
-                                        'repos'=>$repos]);
+        return view('git.profile',$this->gitHubService->getProfileData($gitId));
     }
 }
