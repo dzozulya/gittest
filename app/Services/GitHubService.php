@@ -13,11 +13,13 @@ class GitHubService
 
    private $gitHubConnection;
    private $socialiteDriver;
+   private string $authorGitId;
 
     public function __construct(GitHubManager  $gitHubManager, SocialiteManager $socialite)
     {
        $this->gitHubConnection = $gitHubManager->connection(self::CONNECTION_TYPE_GIT_HUB);
        $this->socialiteDriver = $socialite->driver(self::AUTH_TYPE_GIT_HUB);
+       $this->authorGitId= env('AUTHOR_GIT_ID');
     }
 
 
@@ -43,7 +45,8 @@ class GitHubService
         $repos = $this->getUserReposByNickName($user['login']);
 
         return ['user'=>$user,
-                'repos'=>$repos];
+                'repos'=>$repos,
+                'authorGitId'=>$this->authorGitId];
     }
 
 
